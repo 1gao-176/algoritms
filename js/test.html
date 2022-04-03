@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>Image preview example</title>
+</head>
+
+<body>
+    <div style="position: relative;width: 200px;">
+        <input name="password" autocomplete="off" hidden id="password">
+        <input type="password" autocomplete="off" class="pad-input" style="height: 30px;width: 100%;">
+        <input placeholder="请输入密码" id="show" type="text" style="position: absolute;left: 3px;top:50%;transform: translate(0,-50%);border: none;height: 28px;pointer-events: none;background: #fff;width: 98%;" disabled>
+    </div>
+    <script>
+        var obj = {};
+        Object.defineProperty(obj, 'txt', {
+            get: function() {
+                return obj;
+            },
+            set: function(newValue) {
+                document.getElementsByClassName("pad-input")[0].value = newValue;
+                document.getElementById('show').value = newValue;
+                document.getElementById('password').value = newValue;
+            }
+        });
+        document.getElementsByClassName("pad-input")[0].addEventListener('keyup', function(e) {
+            obj.txt = e.target.value;
+        });
+    </script>
+</body>
