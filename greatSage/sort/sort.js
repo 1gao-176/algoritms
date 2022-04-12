@@ -19,33 +19,58 @@ const quickSort = (array) => {
         let left = []
         let right = []
         for (let i = 1; i < array.length; i++) {
-            if (flag > array[i]) {
-                left.push(array[i])
-            } else {
-                right.push(array[i])
-            }
+            if (array[i] > flag) right.push(array[i])
+            else left.push(array[i])
         }
-        return quickSort(left).concat(flag, quickSort(right))
+        return quickSort(left).concat(flag).concat(quickSort(right))
     }
     // console.log('快速排序', quickSort(array));
 
 const binarySearch = (array, value) => {
-    let hi = array.length - 1;
-    let lo = 0
-    return rank(array, value, hi, lo)
+        let hi = array.length - 1;
+        let lo = 0
+        while (hi >= lo) {
+            let mid = Math.floor((hi + lo) / 2)
+            if (value > array[mid]) {
+                lo = mid + 1
+            } else if (value < array[mid]) {
+                hi = mid - 1
+            } else {
+                return mid
+            }
+        }
+        return -1
+    }
+    // console.log(binarySearch(quickSort(array), 23));
+
+let quick = (array, start, end) => {
+    let flag = start;
+    start = start + 1
+    while (start <= end) {
+        while (array[start] < array[flag]) {
+            start++
+        }
+        while (array[end] > array[flag]) {
+            end--
+        }
+        if (start < end) {
+            [array[start], array[end]] = [array[end], array[start]]
+            end--
+            start++
+        }
+    }
+    [array[start - 1], array[flag]] = [array[flag], array[start - 1]]
+    return start
 }
 
-const rank = (array, value, hi, lo) => {
-    let mid = Math.floor((hi + lo) / 2)
-    if (hi < lo) return -1
-    if (value > array[mid]) {
-        return rank(array, value, hi, mid + 1)
-    } else if (value < array[mid]) {
-        return rank(array, value, mid - 1, lo)
-    }
-    if (value == array[mid]) {
-        return mid
-    }
-}
 
-console.log('二分查找', binarySearch(quickSort(array), 1325864));
+let quickSort1 = (array, start, end) => {
+    if (start < end) {
+        let index = quick(array, start, end)
+        quickSort1(array, start, index - 1)
+        quickSort1(array, index + 1, end)
+    }
+
+    return array
+}
+console.log(quickSort1(array, 0, array.length - 1));
