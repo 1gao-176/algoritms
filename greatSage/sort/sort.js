@@ -43,34 +43,34 @@ const binarySearch = (array, value) => {
     }
     // console.log(binarySearch(quickSort(array), 23));
 
-let quick = (array, start, end) => {
-    let flag = start;
-    start = start + 1
-    while (start <= end) {
-        while (array[start] < array[flag]) {
+const quick = (array, start, end) => {
+    let init = start
+    let flag = array[init]
+    start++
+    while (start < end) {
+        while (array[start] < flag) {
             start++
         }
-        while (array[end] > array[flag]) {
+        while (array[end] > flag) {
             end--
         }
         if (start < end) {
             [array[start], array[end]] = [array[end], array[start]]
-            end--
             start++
+            end--
         }
     }
-    [array[start - 1], array[flag]] = [array[flag], array[start - 1]]
+    [array[init], array[start - 1]] = [array[start - 1], array[init]]
     return start
 }
 
 
-let quickSort1 = (array, start, end) => {
+const quick1Sort = (array, start, end) => {
     if (start < end) {
         let index = quick(array, start, end)
-        quickSort1(array, start, index - 1)
-        quickSort1(array, index + 1, end)
+        quick1Sort(array, start, index - 1)
+        quick1Sort(array, index + 1, end)
     }
-
     return array
 }
-console.log(quickSort1(array, 0, array.length - 1));
+console.log(quick1Sort(array, 0, array.length - 1))
