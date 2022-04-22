@@ -11,26 +11,38 @@
  */
 var threeSum = function(nums) {
     if (nums.length < 3) return []
-    let obj = {
+    let list = []
+    nums.sort((a, b) =>
+        a - b
+    )
+    for (var i = 0; i < nums.length; i++) {
+        if (nums[i] === nums[i - 1]) {
+            continue
+        }
+        let left = i + 1;
+        let right = nums.length - 1
+        while (left < right) {
 
-    }
-    let ret = []
-    for (let i = 0; i < nums.length; i++) {
-        for (let j = i + 1; j < nums.length; j++) {
-            for (let z = j + 1; z < nums.length; z++) {
-                if (nums[i] + nums[j] + nums[z] === 0) {
-                    let item = [nums[i], nums[j], nums[z]].sort((a, b) => a - b)
-                    if (!obj[item]) {
-                        obj[item] = true
-                        ret.push([nums[i], nums[j], nums[z]])
-                    }
-
+            if (nums[i] + nums[left] + nums[right] === 0) {
+                list.push([nums[i], nums[left], nums[right]])
+                while (nums[right] === nums[right - 1]) {
+                    right--
                 }
-
+                while (nums[left] === nums[left + 1]) {
+                    left++
+                }
+                left++
+                right--
+            } else if (nums[i] + nums[left] + nums[right] > 0) {
+                right--
+            } else {
+                left++
             }
         }
     }
-
-    return [...new Set(ret)]
+    return list
 };
 // @lc code=end
+// @after-stub-for-debug-begin
+module.exports = threeSum;
+// @after-stub-for-debug-end
